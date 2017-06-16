@@ -11,6 +11,7 @@ class GameManager {
     private boolean playing = false;
 
     SpaceShip spaceShip;
+    Border border;
 
     int screenWidth;
     int screenHeight;

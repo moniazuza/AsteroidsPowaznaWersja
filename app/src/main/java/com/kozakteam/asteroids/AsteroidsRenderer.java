@@ -57,6 +57,7 @@ public class AsteroidsRenderer implements Renderer {
     //tworzymy statek na środku ekranu
     private void createObjects() {
         gameManager.spaceShip = new SpaceShip(gameManager.mapWidth / 2, gameManager.mapHeight / 2);
+        gameManager.border = new Border(gameManager.mapWidth, gameManager.mapHeight);
     }
 
     @Override
@@ -101,6 +102,7 @@ public class AsteroidsRenderer implements Renderer {
         glClear(GL_COLOR_BUFFER_BIT);
 
         gameManager.spaceShip.draw(viewportMatrix);
+        gameManager.border.draw(viewportMatrix);
     }
 
 
