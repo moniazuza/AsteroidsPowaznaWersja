@@ -58,6 +58,10 @@ public class AsteroidsRenderer implements Renderer {
     private void createObjects() {
         gameManager.spaceShip = new SpaceShip(gameManager.mapWidth / 2, gameManager.mapHeight / 2);
         gameManager.border = new Border(gameManager.mapWidth, gameManager.mapHeight);
+        gameManager.stars = new Star[gameManager.starsNumber];
+        for (int i = 0; i < gameManager.starsNumber; i++) {
+            gameManager.stars[i] = new Star(gameManager.mapWidth, gameManager.mapHeight);
+        }
     }
 
     @Override
@@ -88,6 +92,9 @@ public class AsteroidsRenderer implements Renderer {
     }
 
     private void update(long fps) {
+        for (int i=0; i<gameManager.starsNumber;i++){
+            gameManager.stars[i].update();
+        }
     }
 
     private void draw() {
@@ -103,6 +110,11 @@ public class AsteroidsRenderer implements Renderer {
 
         gameManager.spaceShip.draw(viewportMatrix);
         gameManager.border.draw(viewportMatrix);
+        for (int i=0; i<gameManager.starsNumber;i++){
+            if(gameManager.stars[i].isActive()){
+                gameManager.stars[i].draw(viewportMatrix);
+            }
+        }
     }
 
 
