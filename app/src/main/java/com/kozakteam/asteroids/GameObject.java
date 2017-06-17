@@ -131,6 +131,58 @@ public class GameObject {
         this.location.y = y;
     }
 
+    public void setRotationRate(float rotationRate) {
+        this.rotationRate = rotationRate;
+    }
+
+    public float getTravellingAngle() {
+        return travellingAngle;
+    }
+
+    public void setTravellingAngle(float travellingAngle) {
+        this.travellingAngle = travellingAngle;
+    }
+
+    public float getFacingAngle() {
+        return facingAngle;
+    }
+
+    public void setFacingAngle(float facingAngle) {
+        this.facingAngle = facingAngle;
+    }
+
+    public float getxVelocity() {
+        return xVelocity;
+    }
+
+    public void setxVelocity(float xVelocity) {
+        this.xVelocity = xVelocity;
+    }
+
+    public float getyVelocity() {
+        return yVelocity;
+    }
+
+    public void setyVelocity(float yVelocity) {
+        this.yVelocity = yVelocity;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
     public void setVertices(float[] objectVertices) {
         modelVertices = new float[objectVertices.length];
         modelVertices = objectVertices;
@@ -139,6 +191,18 @@ public class GameObject {
         vertices = ByteBuffer.allocateDirect(elementsNumber * FLOAT_SIZE)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertices.put(modelVertices);
+    }
+
+    void move(float fps) {
+        if (xVelocity != 0) {
+            location.x += xVelocity / fps;
+        }
+        if (yVelocity != 0) {
+            location.y += yVelocity / fps;
+        }
+        if (rotationRate != 0) {
+            facingAngle = facingAngle + rotationRate / fps;
+        }
     }
 
     public void draw(float[] viewportMatrix) {
