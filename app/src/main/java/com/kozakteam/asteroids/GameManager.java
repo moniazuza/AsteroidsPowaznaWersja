@@ -14,6 +14,8 @@ class GameManager {
     Border border;
     Star[] stars;
     int starsNumber = 200;
+    Bullet[] bullets;
+    int bulletsNumber = 20;
 
     int screenWidth;
     int screenHeight;
@@ -22,16 +24,16 @@ class GameManager {
     int mToShowX = 390;
     int mToShowY = 220;
 
-    public GameManager(int x, int y){
-        screenWidth=x;
-        screenHeight=y;
+    public GameManager(int x, int y) {
+        screenWidth = x;
+        screenHeight = y;
     }
 
-    public void switchPlayingStatus(){
-        playing=!playing;
+    public void switchPlayingStatus() {
+        playing = !playing;
     }
 
-    public boolean isPlaying(){
+    public boolean isPlaying() {
         return playing;
     }
 }

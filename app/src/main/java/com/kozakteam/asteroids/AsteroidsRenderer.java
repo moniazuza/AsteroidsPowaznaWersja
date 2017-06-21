@@ -57,10 +57,17 @@ public class AsteroidsRenderer implements Renderer {
     //tworzymy statek na środku ekranu
     private void createObjects() {
         gameManager.spaceShip = new SpaceShip(gameManager.mapWidth / 2, gameManager.mapHeight / 2);
+
         gameManager.border = new Border(gameManager.mapWidth, gameManager.mapHeight);
+
         gameManager.stars = new Star[gameManager.starsNumber];
         for (int i = 0; i < gameManager.starsNumber; i++) {
             gameManager.stars[i] = new Star(gameManager.mapWidth, gameManager.mapHeight);
+        }
+
+        gameManager.bullets = new Bullet[gameManager.bulletsNumber];
+        for (int i = 0; i < gameManager.bulletsNumber; i++) {
+            gameManager.bullets[i] = new Bullet(gameManager.spaceShip.getLocation().x, gameManager.spaceShip.getLocation().y);
         }
     }
 
@@ -92,8 +99,11 @@ public class AsteroidsRenderer implements Renderer {
     }
 
     private void update(long fps) {
-        for (int i=0; i<gameManager.starsNumber;i++){
+        for (int i = 0; i < gameManager.starsNumber; i++) {
             gameManager.stars[i].update();
+        }
+        for (int i = 0; i < gameManager.bulletsNumber; i++) {
+            gameManager.bullets[i].update(fps, gameManager.spaceShip.getLocation());
         }
     }
 
@@ -109,11 +119,15 @@ public class AsteroidsRenderer implements Renderer {
         glClear(GL_COLOR_BUFFER_BIT);
 
         gameManager.spaceShip.draw(viewportMatrix);
+
         gameManager.border.draw(viewportMatrix);
-        for (int i=0; i<gameManager.starsNumber;i++){
-            if(gameManager.stars[i].isActive()){
+        for (int i = 0; i < gameManager.starsNumber; i++) {
+            if (gameManager.stars[i].isActive()) {
                 gameManager.stars[i].draw(viewportMatrix);
             }
+        }
+        for (int i = 0; i < gameManager.bulletsNumber; i++) {
+            gameManager.bullets[i].draw(viewportMatrix);
         }
     }
 
