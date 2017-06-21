@@ -27,13 +27,16 @@ public class AsteroidsRenderer implements Renderer {
     private final float[] viewportMatrix = new float[16];
 
     private GameManager gameManager;
+    private InputController inputController;
 
     //żeby nie musieć tworzyć nowych obiektów w krytycznych miejscach
     PointF pointF;
     PointF pointF2;
 
-    public AsteroidsRenderer(GameManager gameManager) {
+    public AsteroidsRenderer(GameManager gameManager,  InputController inputController) {
         this.gameManager = gameManager;
+        this.inputController = inputController;
+
         pointF = new PointF();
         pointF2 = new PointF();
     }
