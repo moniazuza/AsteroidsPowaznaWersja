@@ -16,6 +16,11 @@ class GameManager {
     int starsNumber = 200;
     Bullet[] bullets;
     int bulletsNumber = 20;
+    Asteroid[] asteroids;
+    int asteroidsNumber;
+    int remainingAsteroidsNumber;
+    int baseAsteroidsNumber = 10;
+    int levelNumber = 1;
 
     int screenWidth;
     int screenHeight;
@@ -27,6 +32,7 @@ class GameManager {
     public GameManager(int x, int y) {
         screenWidth = x;
         screenHeight = y;
+        asteroids = new Asteroid[500];
     }
 
     public void switchPlayingStatus() {

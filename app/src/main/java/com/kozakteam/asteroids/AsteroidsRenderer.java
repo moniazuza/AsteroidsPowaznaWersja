@@ -33,7 +33,7 @@ public class AsteroidsRenderer implements Renderer {
     PointF pointF;
     PointF pointF2;
 
-    public AsteroidsRenderer(GameManager gameManager,  InputController inputController) {
+    public AsteroidsRenderer(GameManager gameManager, InputController inputController) {
         this.gameManager = gameManager;
         this.inputController = inputController;
 
@@ -72,6 +72,12 @@ public class AsteroidsRenderer implements Renderer {
         for (int i = 0; i < gameManager.bulletsNumber; i++) {
             gameManager.bullets[i] = new Bullet(gameManager.spaceShip.getLocation().x, gameManager.spaceShip.getLocation().y);
         }
+
+        gameManager.asteroidsNumber = gameManager.baseAsteroidsNumber * gameManager.levelNumber;
+        gameManager.remainingAsteroidsNumber = gameManager.asteroidsNumber;
+        for (int i = 0; i < gameManager.asteroidsNumber * gameManager.levelNumber; i++) {
+            gameManager.asteroids[i] = new Asteroid(gameManager.levelNumber, gameManager.mapWidth, gameManager.mapHeight);
+        }
     }
 
     @Override
@@ -108,6 +114,11 @@ public class AsteroidsRenderer implements Renderer {
         for (int i = 0; i < gameManager.bulletsNumber; i++) {
             gameManager.bullets[i].update(fps, gameManager.spaceShip.getLocation());
         }
+        for (int i = 0; i < gameManager.asteroidsNumber; i++) {
+            if (gameManager.asteroids[i].isActive()){
+                gameManager.asteroids[i].update(fps);
+            }
+        }
     }
 
     private void draw() {
@@ -129,8 +140,15 @@ public class AsteroidsRenderer implements Renderer {
                 gameManager.stars[i].draw(viewportMatrix);
             }
         }
+
         for (int i = 0; i < gameManager.bulletsNumber; i++) {
             gameManager.bullets[i].draw(viewportMatrix);
+        }
+
+        for (int i = 0; i < gameManager.asteroidsNumber; i++) {
+            if (gameManager.asteroids[i].isActive()){
+                gameManager.asteroids[i].draw(viewportMatrix);
+            }
         }
     }
 
