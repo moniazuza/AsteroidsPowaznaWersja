@@ -41,7 +41,7 @@ public class GameObject {
 
     boolean active;
 
-    public enum Type {SPACESHIP, ASTEROID, BORDER, BULLET, STAR}
+    public enum Type {SPACESHIP, ASTEROID, BORDER, BULLET, STAR};
 
 
     private Type type;
