@@ -1,9 +1,12 @@
 package com.kozakteam.asteroids;
 
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.opengl.GLSurfaceView.Renderer;
 import android.provider.Settings;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -28,6 +31,10 @@ public class AsteroidsRenderer implements Renderer {
 
     private GameManager gameManager;
     private InputController inputController;
+
+    // This will hold our game buttons
+    private final GameButton[] gameButtons = new GameButton[5];
+
 
     //żeby nie musieć tworzyć nowych obiektów w krytycznych miejscach
     PointF pointF;
@@ -77,6 +84,25 @@ public class AsteroidsRenderer implements Renderer {
         gameManager.remainingAsteroidsNumber = gameManager.asteroidsNumber;
         for (int i = 0; i < gameManager.asteroidsNumber * gameManager.levelNumber; i++) {
             gameManager.asteroids[i] = new Asteroid(gameManager.levelNumber, gameManager.mapWidth, gameManager.mapHeight);
+        }
+
+            // ikony zycia
+        for(int i = 0; i < gameManager.numLives; i++) {
+            gameManager.lifeIcons[i] = new LifeIcon(gameManager, i);
+        }
+        // tikony lvl
+        for(int i = 0; i < gameManager.remainingAsteroidsNumber; i++) {
+            // Notice we send in which icon this represents
+            // from left to right so padding and positioning is correct.
+            gameManager.tallyIcons[i] = new TallyIcon(gameManager, i);
+        }
+        //przyciski
+        ArrayList<Rect> buttonsToDraw = inputController.getButtons();
+        int i = 0;
+        for (Rect rect : buttonsToDraw) {
+            gameButtons[i] = new GameButton(rect.top, rect.left,
+                    rect.bottom, rect.right, gameManager);
+            i++;
         }
     }
 
@@ -150,7 +176,47 @@ public class AsteroidsRenderer implements Renderer {
                 gameManager.asteroids[i].draw(viewportMatrix);
             }
         }
+
+        // buttons
+        for (int i = 0; i < gameButtons.length; i++) {
+            gameButtons[i].draw();
+        }
+        // ikony zycia
+        for(int i = 0; i < gameManager.numLives; i++) {
+            gameManager.lifeIcons[i].draw();
+        }
+        // rysowanie ikon levelu
+        for(int i = 0; i < gameManager.remainingAsteroidsNumber; i++) {
+            gameManager.tallyIcons[i].draw();
+        }
     }
 
+    public void lifeLost(){
+        // resetowanie statku na srodek
+        gameManager.spaceShip.setLocation(gameManager.mapWidth/2, gameManager.mapHeight/2);
 
+            // zmniejszenie zycia
+        gameManager.numLives = gameManager.numLives -1;
+        if(gameManager.numLives == 0){
+            gameManager.levelNumber = 1;
+            gameManager.numLives = 3;
+            createObjects();
+            gameManager.switchPlayingStatus();
+        }
+    }
+
+    public void destroyAsteroid(int asteroidIndex){
+        gameManager.asteroids[asteroidIndex].setActive(false);
+        // zmniejszenie ilosci asteroid
+        gameManager.remainingAsteroidsNumber --;
+        // czy gracz wyczyscil wszystko?
+        if(gameManager.remainingAsteroidsNumber == 0){
+            // zwiekszenie lvl
+            gameManager.levelNumber ++;
+            // extra zycie
+            gameManager.numLives ++;
+            // tworzenie nowych asteroid
+            createObjects();
+        }
+    }
 }

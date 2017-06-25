@@ -11,9 +11,12 @@ class SpaceShip extends GameObject {
     boolean thrusting;
     private boolean pressingRight = false;
     private boolean pressingLeft = false;
+    CollisionPackage cp;
+
 
     public SpaceShip(float locationX, float locationY) {
         super();
+        PointF[] points;
         //ustawiamy typ, żeby metoda draw z gameobject wiedziała, co rysować
         setType(Type.SPACESHIP);
         setLocation(locationX, locationY);
@@ -32,6 +35,22 @@ class SpaceShip extends GameObject {
                 0, 0 + halfLength, 0
         };
         setVertices(spaceShipVertices);
+
+        // inicjalizacja paczki kolizji
+        //liczba listy obiektow, najwiekszy promien
+
+        points = new PointF[6];
+        points[0] = new PointF(- halfWidth, - halfLength);
+        points[2] = new PointF(halfWidth, - halfLength);
+        points[4] = new PointF(0, 0 + halfLength);
+        points[1] = new PointF(points[0].x +
+                points[2].x/2,(points[0].y + points[2].y)/2);
+        points[3] = new PointF((points[2].x + points[4].x)/2,
+                (points[2].y + points[4].y)/2);
+        points[5] = new PointF((points[4].x + points[0].x)/2,
+                (points[4].y + points[0].y)/2);
+        cp = new CollisionPackage(points, getLocation(),
+                length/2, getFacingAngle());
     }
 
     public void update(long fps) {
@@ -57,6 +76,10 @@ class SpaceShip extends GameObject {
             setRotationRate(0);
         }
         move(fps);
+
+        // update paczki kolizji
+        cp.facingAngle = getFacingAngle();
+        cp.worldLocation = getLocation();
     }
 
     public boolean pullTrigger(){

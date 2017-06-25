@@ -11,6 +11,7 @@ import java.util.Random;
 public class Asteroid extends GameObject {
 
     PointF[] points;
+    CollisionPackage cp;
 
     public Asteroid(int levelNumber, int mapWidth, int mapHeight) {
         super();
@@ -37,6 +38,7 @@ public class Asteroid extends GameObject {
 
         setType(Type.ASTEROID);
         generatePoints();
+        cp = new CollisionPackage(points, getLocation(), 25, getFacingAngle());
     }
 
     public void generatePoints() {
@@ -90,6 +92,11 @@ public class Asteroid extends GameObject {
         i = -(random.nextInt(12) + 1);
         points[5].y = i;
 
+        // //pierwszy punkt położony blisko środka, poniżej 0
+        points[6] = new PointF();
+        points[6].x = points[0].x;
+        points[6].x = points[0].x;
+
         float[] asteroidVertices = new float[]{
                 // 1-2
                 points[0].x, points[0].y, 0,
@@ -117,5 +124,26 @@ public class Asteroid extends GameObject {
         setxVelocity((float) (getSpeed() * Math.cos(Math.toRadians(getTravellingAngle() + 90))));
         setyVelocity((float) (getSpeed() * Math.sin(Math.toRadians(getTravellingAngle() + 90))));
         move(fps);
+        // Update the collision package
+        cp.facingAngle = getFacingAngle();
+        cp.worldLocation = getLocation();
+    }
+
+    public void bounce() {
+        // kurs latania
+        if (getTravellingAngle() >= 180) {
+            setTravellingAngle(getTravellingAngle() - 180);
+        } else {
+            setTravellingAngle(getTravellingAngle() + 180);
+        }
+        // jak utkna to wywalenie
+        setLocation((getLocation().x + -getxVelocity() / 3),
+                (getLocation().y + -getyVelocity() / 3));
+        // zwiekszenie speed 10%
+        setSpeed(getSpeed() * 1.1f);
+        // nie za szybko
+        if (getSpeed() > getMaxSpeed()) {
+            setSpeed(getMaxSpeed());
+        }
     }
 }

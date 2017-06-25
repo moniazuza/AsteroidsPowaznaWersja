@@ -43,7 +43,7 @@ public class GameObject {
 
     public enum Type {SPACESHIP, ASTEROID, BORDER, BULLET, STAR}
 
-    ;
+
     private Type type;
     private static int glProgram = -1;
 
@@ -242,6 +242,8 @@ public class GameObject {
                 glDrawArrays(GL_POINTS, 0, verticesNumber);
                 break;
         }
+
     }
+
 
 }
