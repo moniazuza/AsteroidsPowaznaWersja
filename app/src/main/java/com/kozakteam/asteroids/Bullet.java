@@ -9,6 +9,7 @@ import android.graphics.PointF;
 public class Bullet extends GameObject {
 
     private boolean inFlight = false;
+    CollisionPackage cp;
 
     public Bullet(float spaceShipX, float spaceShipY) {
         super();
@@ -16,6 +17,13 @@ public class Bullet extends GameObject {
         setLocation(spaceShipX, spaceShipY);
         float[] bulletVertices = new float[]{0, 0, 0};
         setVertices(bulletVertices);
+
+        // Initialize the collision package
+        PointF point = new PointF(0,0);
+        PointF[] points = new PointF[1];
+        points[0] = point;
+        cp = new CollisionPackage(points, getLocation(),
+                1.0f, getFacingAngle());
     }
 
     public void shoot(float spaceShipFacingAngle) {
@@ -44,5 +52,8 @@ public class Bullet extends GameObject {
             setLocation(spaceShipLocation.x, spaceShipLocation.y);
         }
         move(fps);
+        cp.facingAngle = getFacingAngle();
+        cp.worldLocation = getLocation();
+
     }
 }

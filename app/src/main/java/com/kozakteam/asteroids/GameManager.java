@@ -1,10 +1,16 @@
 package com.kozakteam.asteroids;
 
+
+
 /**
  * Created by User on 15.06.2017.
  */
 
 class GameManager {
+
+    TallyIcon[] tallyIcons;
+    int numLives = 3;
+    LifeIcon[] lifeIcons;
 
     int mapWidth = 600;
     int mapHeight = 600;
@@ -29,10 +35,14 @@ class GameManager {
     int mToShowX = 390;
     int mToShowY = 220;
 
+
     public GameManager(int x, int y) {
         screenWidth = x;
         screenHeight = y;
         asteroids = new Asteroid[500];
+        lifeIcons = new LifeIcon[50];
+        tallyIcons = new TallyIcon[500];
+
     }
 
     public void switchPlayingStatus() {
@@ -42,4 +52,5 @@ class GameManager {
     public boolean isPlaying() {
         return playing;
     }
+
 }
