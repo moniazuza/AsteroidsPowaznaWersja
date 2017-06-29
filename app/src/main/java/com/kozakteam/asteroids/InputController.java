@@ -21,12 +21,13 @@ class InputController {
         int buttonPadding = x / 80;
 
         left = new Rect(buttonPadding,
-                x - buttonHeight - buttonPadding,
+                y - buttonHeight - buttonPadding,
                 buttonWidth,
                 y - buttonPadding);
 
+
         right = new Rect(buttonWidth + buttonPadding,
-                x - buttonHeight - buttonPadding,
+                y - buttonHeight - buttonPadding,
                 buttonWidth + buttonPadding + buttonWidth,
                 y - buttonPadding);
 
@@ -35,7 +36,8 @@ class InputController {
                 x - buttonPadding,
                 y - buttonPadding - buttonHeight - buttonPadding);
 
-        shoot = new Rect(x - buttonWidth - buttonPadding,
+
+         shoot = new Rect(x - buttonWidth - buttonPadding,
                 y - buttonHeight - buttonPadding,
                 x - buttonPadding,
                 y - buttonPadding);
