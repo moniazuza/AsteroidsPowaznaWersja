@@ -8,21 +8,19 @@ public class Border extends GameObject {
 
     public Border(float mapWidth, float mapHeight) {
         setType(Type.BORDER);
+        setSize(mapWidth/2, mapHeight/2);
         float width = mapWidth;
         float height = mapHeight;
-        setSize(width, height);
-        float halfWidth = width / 2;
-        float halfHeight = height / 2;
         //każda trójka, to punkt, każde dwie trójki współrzędnych, to jedna linia
         float[] borderVertices = new float[]{
-                -halfWidth, -halfHeight, 0,
-                halfWidth, -halfHeight, 0,
-                halfWidth, -halfHeight, 0,
-                halfWidth, halfHeight, 0,
-                halfWidth, halfHeight, 0,
-                -halfWidth, halfHeight, 0,
-                -halfWidth, halfHeight, 0,
-                -halfWidth, -halfHeight, 0
+                -width/2, -height/2, 0,
+                width/2, -height/2, 0,
+                width/2, -height/2, 0,
+                width/2, height/2, 0,
+                width/2, height/2, 0,
+                -width/2, height/2, 0,
+                -width/2, height/2, 0,
+                -width/2, -height/2, 0
         };
         setVertices(borderVertices);
     }
